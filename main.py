@@ -1,7 +1,6 @@
 from models_pydantic import Game, Ghost, Player
 import openpyxl
 from datetime import time
-from collections import Counter
 import os
 import psycopg2
 import json
@@ -19,7 +18,8 @@ mimic = Ghost(**{
         'evidence_3': 'Freezing Temperatures'
     },
     'strength': 'Can mimic the actions of other ghosts',
-    'weakness': 'Induces Ghost Orbs as fourth evidence'
+    'weakness': 'Induces Ghost Orbs as fourth evidence',
+
 })
 
 cursor.execute('''
@@ -61,25 +61,15 @@ game_1 = Game(**{
     'players': [player_s.name, player_g.name, player_u.name, player_admiral.name],
     'right_or_not': ['1'],
     'dead_or_not': ['0'],
+    'game_version': '0.5.1.0',
+    'cursed_possession': 'Tarot Cards'
 })
 
 print(game_1)
 print(game_1.players)
 print(game_1.duration)
 
-workbook = openpyxl.load_workbook('./Стата на данный момент.xlsx')
 
-worksheet = workbook.worksheets[0]
-
-row_of_ghosts = list()
-
-for row in range(1, worksheet.max_row + 1):
-    value = worksheet.cell(row, 5).value
-    if value and value not in ('Сережа', 'Саня'):
-        row_of_ghosts.append(value)
-
-count_of_ghosts = Counter(row_of_ghosts)
-print(count_of_ghosts)
 
 
 
